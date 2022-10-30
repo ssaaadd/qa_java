@@ -22,17 +22,17 @@ public class CatTest {
     @Test
     public void getSound_Meow_True() {
         Cat cat = new Cat(feline);
-        String actualSound = cat.getSound();
-        assertEquals("Мяу", actualSound);
+        String expectedGetSound = "Мяу";
+        String actualGetSound = cat.getSound();
+        assertEquals("Кошки должны мяукать", expectedGetSound, actualGetSound);
     }
 
     @Test
     public void getFood_CatFood_True() throws Exception {
         Cat cat = new Cat(feline);
-        List<String> mock = Arrays.asList("Животные", "Птицы", "Рыба");
-        Mockito.when(cat.getFood()).thenReturn(mock);
-        List<String> actualList = cat.getFood();
-        List<String> expectedList = Arrays.asList("Животные", "Птицы", "Рыба");
-        assertEquals(expectedList, actualList);
+        Mockito.when(feline.eatMeat()).thenReturn(Arrays.asList("Животные", "Птицы", "Рыба"));
+        List<String> expectedGetFood = Arrays.asList("Животные", "Птицы", "Рыба");
+        List<String> actualGetFood = cat.getFood();
+        assertEquals("Список еды не соответствует Кошке=Хищнику", expectedGetFood, actualGetFood);
     }
 }
