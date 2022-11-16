@@ -8,7 +8,11 @@ public class CourierGenerator {
         return new Courier("login090909090909","password","");
     }
 
-    public static Courier getWithoutField(){
+    public static Courier getWithoutPassField(){
+        return new Courier(null,"password","");
+    }
+
+    public static Courier getWithoutLoginField(){
         return new Courier(null,"password","");
     }
 

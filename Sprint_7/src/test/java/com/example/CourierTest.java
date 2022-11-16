@@ -2,9 +2,8 @@ package com.example;
 
 import io.restassured.response.ValidatableResponse;
 import org.example.client.CourierClient;
-import org.example.model.Courier;
-
 import org.example.generators.CourierGenerator;
+import org.example.model.Courier;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -22,13 +21,15 @@ public class CourierTest extends BaseTest {
     private Courier courierWithoutPass;
     private String message;
     private Courier courierNotExist;
+    private Courier courierWithoutLogin;
 
     @Before
     public void setUp() {
 //        Создаем шаблоны курьеров
         courierClient = new CourierClient();
         courierDefault = CourierGenerator.getDefault();
-        courierWithoutPass = CourierGenerator.getWithoutField();
+        courierWithoutPass = CourierGenerator.getWithoutPassField();
+        courierWithoutLogin = CourierGenerator.getWithoutPassField();
         courierNotExist = CourierGenerator.getNotExist();
     }
 
@@ -63,6 +64,22 @@ public class CourierTest extends BaseTest {
     public void createCourier_WithoutPass_NotBeCreated() {
 
         ValidatableResponse responseCreate = courierClient.createCourier(courierWithoutPass);
+
+        int statusCodeActual = getStatusCodeActual(responseCreate);
+        message = responseCreate.extract().path("message");
+        String actualMessage = "Недостаточно данных для создания учетной записи";
+
+
+        Assert.assertEquals("Запрещено Создание курьера без обязательных полей", actualMessage, message);
+        Assert.assertEquals("Статус код не 400", statusCodeActual, SC_BAD_REQUEST);
+
+
+    }
+
+    @Test
+    public void createCourier_WithoutLogin_NotBeCreated() {
+
+        ValidatableResponse responseCreate = courierClient.createCourier(courierWithoutLogin);
 
         int statusCodeActual = getStatusCodeActual(responseCreate);
         message = responseCreate.extract().path("message");

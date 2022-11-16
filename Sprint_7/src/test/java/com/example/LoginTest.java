@@ -11,7 +11,7 @@ import org.junit.Test;
 
 import static org.apache.http.HttpStatus.*;
 
-public class LoginTest extends BaseTest{
+public class LoginTest extends BaseTest {
 
 
     private CourierClient courierClient;
@@ -20,6 +20,7 @@ public class LoginTest extends BaseTest{
     private Courier courierWithoutPass;
     private String message;
     private Courier courierNotExist;
+    private Courier courierWithoutLogin;
 
 
     @Before
@@ -27,7 +28,8 @@ public class LoginTest extends BaseTest{
 //        Создаем шаблоны курьеров
         courierClient = new CourierClient();
         courierDefault = CourierGenerator.getDefault();
-        courierWithoutPass = CourierGenerator.getWithoutField();
+        courierWithoutPass = CourierGenerator.getWithoutPassField();
+        courierWithoutLogin = CourierGenerator.getWithoutLoginField();
         courierNotExist = CourierGenerator.getNotExist();
     }
 
@@ -52,6 +54,19 @@ public class LoginTest extends BaseTest{
     @Test
     public void courierLogin_WithoutPass_NotLogged() {
         ValidatableResponse responseLogin = courierClient.loginCourier(courierWithoutPass);
+
+        int statusCodeActual = getStatusCodeActual(responseLogin);
+        String actualMessage = "Недостаточно данных для входа";
+        message = responseLogin.extract().path("message");
+
+
+        Assert.assertEquals("Запрещено Входить без обязательных полей", actualMessage, message);
+        Assert.assertEquals("Статус код не 400", SC_BAD_REQUEST, statusCodeActual);
+    }
+
+    @Test
+    public void courierLogin_WithoutLogin_NotLogged() {
+        ValidatableResponse responseLogin = courierClient.loginCourier(courierWithoutLogin);
 
         int statusCodeActual = getStatusCodeActual(responseLogin);
         String actualMessage = "Недостаточно данных для входа";
