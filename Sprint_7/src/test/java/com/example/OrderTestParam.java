@@ -18,7 +18,6 @@ public class OrderTestParam extends BaseTest {
     private final Order order;
     private final int statusCode;
     private OrderClient orderClient;
-    private Object message;
     private int track;
 
 

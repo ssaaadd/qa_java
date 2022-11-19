@@ -29,7 +29,7 @@ public class CourierTest extends BaseTest {
         courierClient = new CourierClient();
         courierDefault = CourierGenerator.getDefault();
         courierWithoutPass = CourierGenerator.getWithoutPassField();
-        courierWithoutLogin = CourierGenerator.getWithoutPassField();
+        courierWithoutLogin = CourierGenerator.getWithoutLoginField();
         courierNotExist = CourierGenerator.getNotExist();
     }
 

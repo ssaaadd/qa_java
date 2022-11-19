@@ -9,7 +9,7 @@ public class CourierGenerator {
     }
 
     public static Courier getWithoutPassField(){
-        return new Courier(null,"password","");
+        return new Courier("login090909090909",null,"");
     }
 
     public static Courier getWithoutLoginField(){
